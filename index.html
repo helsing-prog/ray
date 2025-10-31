@@ -1882,6 +1882,202 @@
                 filter: contrast(1.2) saturate(1.3) brightness(1.05) !important;
             }
         }
+        
+        /* ============================ */
+        /* Infection Meter */
+        /* ============================ */
+        .infection-meter {
+            margin-top: 20px;
+            padding: 16px 12px;
+            background: linear-gradient(145deg, rgba(10, 6, 14, 0.65), rgba(6, 4, 10, 0.75));
+            border-radius: 14px;
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 92, 246, 0.15) inset;
+            position: relative;
+            overflow: hidden;
+        }
+        .infection-meter::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(120% 60% at 0% 0%, rgba(139, 92, 246, 0.08), transparent 60%),
+                radial-gradient(120% 60% at 100% 100%, rgba(109, 40, 217, 0.10), transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: infectionAmbient 8s ease-in-out infinite alternate;
+        }
+        @keyframes infectionAmbient {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .infection-meter__stage {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e879f9;
+            text-shadow: 0 0 12px rgba(232, 121, 249, 0.8), 0 0 24px rgba(168, 85, 247, 0.5);
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+        }
+        .infection-meter__label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .infection-meter__title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #a78bfa;
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+            letter-spacing: 0.3px;
+        }
+        .infection-meter__value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #c4b5fd;
+            text-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
+            font-variant-numeric: tabular-nums;
+        }
+        .infection-meter__bar {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(145deg, rgba(15, 10, 20, 0.9), rgba(10, 6, 16, 0.95));
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 2px 6px rgba(0, 0, 0, 0.6),
+                inset 0 0 0 1px rgba(139, 92, 246, 0.2),
+                0 1px 0 rgba(168, 85, 247, 0.1);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(109, 40, 217, 0.3);
+        }
+        .infection-meter__fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8b5cf6, #a855f7, #c084fc, #a855f7, #8b5cf6);
+            background-size: 200% 100%;
+            border-radius: 12px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 0 20px rgba(139, 92, 246, 0.6),
+                0 0 40px rgba(168, 85, 247, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: infectionPulse 3s ease-in-out infinite, infectionFlow 4s linear infinite;
+        }
+        .infection-meter__fill::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            animation: infectionShimmer 2.5s infinite;
+        }
+        .infection-meter__fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(0, 0, 0, 0.1) 8px,
+                    rgba(0, 0, 0, 0.1) 16px
+                );
+            animation: infectionStripes 1.5s linear infinite;
+        }
+        .infection-meter__glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.3), transparent 70%);
+            opacity: 0;
+            animation: infectionGlowPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes infectionPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 20px rgba(139, 92, 246, 0.6),
+                    0 0 40px rgba(168, 85, 247, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 30px rgba(139, 92, 246, 0.8),
+                    0 0 60px rgba(168, 85, 247, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+        }
+        @keyframes infectionFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        @keyframes infectionShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        @keyframes infectionStripes {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(23px); }
+        }
+        @keyframes infectionGlowPulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.6; }
+        }
+        /* Different infection stages with color changes */
+        .infection-meter__fill[data-percentage="0"] {
+            width: 0%;
+        }
+        /* Low infection: 1-25% - Purple tones */
+        .infection-meter__fill[data-percentage^="1"],
+        .infection-meter__fill[data-percentage^="2"] {
+            background: linear-gradient(90deg, #8b5cf6, #a855f7, #c084fc, #a855f7, #8b5cf6);
+        }
+        /* Medium infection: 26-50% - Purple to pink */
+        .infection-meter__fill[data-percentage^="3"],
+        .infection-meter__fill[data-percentage^="4"],
+        .infection-meter__fill[data-percentage="50"] {
+            background: linear-gradient(90deg, #a855f7, #c084fc, #e879f9, #c084fc, #a855f7);
+        }
+        /* High infection: 51-75% - Pink to red */
+        .infection-meter__fill[data-percentage^="5"],
+        .infection-meter__fill[data-percentage^="6"],
+        .infection-meter__fill[data-percentage^="7"] {
+            background: linear-gradient(90deg, #e879f9, #f472b6, #ff1744, #f472b6, #e879f9);
+        }
+        /* Critical infection: 76-100% - Red to dark red */
+        .infection-meter__fill[data-percentage^="8"],
+        .infection-meter__fill[data-percentage^="9"],
+        .infection-meter__fill[data-percentage="100"] {
+            background: linear-gradient(90deg, #ff1744, #dc2626, #991b1b, #dc2626, #ff1744);
+            box-shadow: 
+                0 0 30px rgba(255, 23, 68, 0.8),
+                0 0 60px rgba(220, 38, 38, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .infection-meter__fill,
+            .infection-meter__fill::before,
+            .infection-meter__fill::after,
+            .infection-meter__glow,
+            .infection-meter::before {
+                animation: none !important;
+            }
+            .infection-meter__fill {
+                transition: width 0.3s ease;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1902,11 +2098,22 @@
                     <h3 class="unknown-prince__title">Принц Неизвестного</h3>
                     <p class="unknown-prince__subtitle">его взгляд видит все — даже если глаза закрыты</p>
                     <div class="unknown-prince__bar"></div>
+                    <div class="infection-meter">
+                        <div class="infection-meter_ы_stage">5-я стадия "Нечто"</div>
+                        <div class="infection-meter__label">
+                            <span class="infection-meter__title">Степень заражения</span>
+                            <span class="infection-meter__value">87%</span>
+                        </div>
+                        <div class="infection-meter__bar">
+                            <div class="infection-meter__fill" data-percentage="87" style="width: 87%;"></div>
+                            <div class="infection-meter__glow"></div>
+                        </div>
+                    </div>
                 </section>
-                <div class="info-item">
+                <div class="info-item" style="opacity: 0.85;">
                     <h3>Рост и внешность</h3>
                     <ul>
-                        <li>рост 158, выющиеся растрёпанные волосы</li>
+                        <li>рост 158, вьющиеся растрёпанные волосы</li>
                         <li>под глазами рея располагаются ещё по одному искажённому глазу</li>
                         <li>значёк с кроликом на плече — подарок зилу</li>
                         <li>повязка на глаз (читать снаряжение)</li>
@@ -1958,14 +2165,7 @@
                             <div class="acc-panel">
                                 <p> - призываемый ворон, визуально искажённый</p>
                                 <p> - служит разведкой, имеет 1хп<p/>
-                                <p> - личинки наносят малый урон и имеют по 5 хп</p>
                                 <p> - можно призвать ровно раз в день</p>
-                            </div>
-                        </li>
-                        <li class="accordion-item">
-                            <button class="acc-head" type="button"><span>внутренний компас</span><i class="chev">›</i></button>
-                            <div class="acc-panel">
-                                <p> - всегда знает где стороны света (включая пол и потолок)</p>
                             </div>
                         </li>
                         <li class="accordion-item eldritch">
@@ -1996,6 +2196,12 @@
                                 <p> - не имеет возможности отличать реальность от иллюзии</p>
                             </div>
                         </li>
+                        <li class="accordion-item">
+                            <button class="acc-head" type="button"><span>внутренний компас</span><span style="margin-left:auto;color:#e85d04;font-weight:600;">(passive)</span><i class="chev">›</i></button>
+                            <div class="acc-panel">
+                                <p> - всегда знает где стороны света (включая пол и потолок)</p>
+                            </div>
+                        </li>
                         <li class="accordion-item visual-effect">
                             <button class="acc-head" type="button" style="display:flex;align-items:center;gap:8px;"><span>визуальный эффект</span><span style="margin-left:auto;color:#e85d04;font-weight:600;">(passive)</span><i class="chev">›</i></button>
                             <div class="acc-panel">
@@ -2023,7 +2229,7 @@
                 <h2 class="section-title">Снаряжение/инвентарь</h2>
                 <div class="info-item money-item">
                     <h3>Деньги</h3>
-                    <p>$3050</p>
+                    <p>$2650</p>
                 </div>
                 <div class="info-item">
                     <h3>Оружие</h3>
@@ -2062,7 +2268,28 @@
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <button class="acc-head" type="button"><span>лёдо-газовая винтовка</span><span class="stack-sacrifice" style="flex:1;text-align:center;color:#4a90e2;font-weight:600;">патроны: 7</span><i class="chev">›</i></button>
+                            <button class="acc-head" type="button"><span>фрактальная лоза</span><i class="chev">›</i></button>
+                            <div class="acc-panel">
+                                <p> - тяжелая цепь в виде лозы, раньше она лишала препаратов, но свойства почти полностью выветрились</p>
+                                <p> - колюще-режущее оружие наносящее урон</p>
+                                <p> - если юзать на расстоянии более 15 метров, то для атаки нужно сделать подготовку, если тратить щит или хп, то за каждые 5 потраченных единиц зарядка снижается на 2 минуты</p>
+                                <p> - при зарядке в 15 минут можно активировать ульту</p>
+                                <p> - гарант связывание противника лозой на 8 секунд нанося много тиков урона</p>
+                                <p> - если бить противника в этот момент вблизи, то атакующему тоже будет наносится урон в 5хп за атаку</p>
+                                <p> - перезарядка 45 минут</p>
+                            </div>
+                        </li>
+                        <li class="accordion-item">
+                            <button class="acc-head" type="button"><span>щит архитектора</span><i class="chev">›</i></button>
+                            <div class="acc-panel">
+                                <p> - как же он хорош...</p>
+                                <p> - ... </p>
+                                <p> - при падении хп до 1 автоматически спасает от урона и даёт 50 единиц щита</p>
+                                <p> - во время этого любой дальний урон возрастает в 3 раза</p>
+                            </div>
+                        </li> 
+                        <li class="accordion-item">
+                            <button class="acc-head" type="button"><span>лёдо-газовая винтовка</span><span class="stack-sacrifice" style="flex:1;text-align:center;color:#4a90e2;font-weight:600;">патроны: 12</span><i class="chev">›</i></button>
                             <div class="acc-panel">
                                 <p> - ужасная в удобстве, но крайне эффективная винтовка</p>
                                 <p> - при выстреле образуется газовая спираль, после чего она загорается, но тут же замерзает, создавая ледяную спираль</p>
@@ -2070,8 +2297,8 @@
                             </div>
                         </li>
                         <li class="accordion-item">
-                            <button class="acc-head" type="button" style="display:flex;align-items:center;gap:8px;"><span>огне-вихревый гранатомëт</span><span class="stack-sacrifice" style="flex:1;text-align:center;color:#4a90e2;font-weight:600;">патроны: 9</span><i class="chev">›</i></button>
-                            <div class="acc-panel">
+                            <button class="acc-head" type="button" style="display:flex;align-items:center;gap:8px;"><span>огне-вихревый гранатомëт</span><span class="stack-sacrifice" style="flex:1;text-align:center;color:#4a90e2;font-weight:600;">патроны: 18</span><i class="chev">›</i></button>
+                            <div class="acc-panel">ы
                                 <p> - шестизарядный гранатомëт особого типа, неизвестно кто и как его так модифицировал, но им крайне неудобно целится и у него жутко плохой баланс</p>
                                 <p> - при выстреле пуля летит медленно, скорее даже планирует пока не коснётся поверхности, после создаётся вихрь из огня и воздуха затягивая все ближайшие объекты в центр</p>
                                 <p> - раз в день в нём генерируется 9 патронов</p>
@@ -2167,6 +2394,7 @@
                     <div class="mesh-bag" data-mesh="red_dust">Красный мешочек</div>
                     <div class="mesh-bag" data-mesh="big_dust">Большой мешок</div>
                     <div class="mesh-bag" data-mesh="narcotic">Нарко-мешочек</div>
+                    <div class="mesh-bag" data-mesh="ideal">Безупречный мешочек</div>
                     </div>
                     <div id="meshDescription" class="mesh-description hidden">
                         <h4 id="meshTitle"></h4>
@@ -2190,12 +2418,10 @@
                     <h3>Слабости</h3>
                     <ul>
                         <li>низкий болевой порог</li>
-                        <li>стесняется своего низкого роста пока общается с человеком сильно выше него</li>
                     </ul>
                 </div>
                 <div class="info-item">
                     <h3>Степень заражения</h3>
-                    <p>5-я стадия "Нечто"</p>
                     <bl />
                     <p>0%</p>
                     <div class="stat-bar">
@@ -2347,6 +2573,10 @@
                 narcotic: {
                     title: "Нарко-мешочек",
                     description: "— та же пыль только с небольшим процентом содержания наркотиков! на полный реген такой мешочка нужно пару дней"
+                },
+                ideal: {
+                    title: "Безупречный мешочек",
+                    description: "— завязанный лозой Архитектора мешочек, каждая пылинка в нëм имеет чудесную форму, идеальный цвет и неоспоримые пропорции, а образуют они чистые фракталы пыли, чуствуется весь максимализм безупречности"
                 }
             };
             let openedMesh = null;
@@ -2519,3 +2749,4 @@
 </body>
 </html>
 
+        
